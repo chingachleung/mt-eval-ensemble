@@ -1,5 +1,7 @@
 # mt-eval-ensemble
 
+[![tests](https://github.com/chingachleung/mt-eval-ensemble/actions/workflows/tests.yml/badge.svg)](https://github.com/chingachleung/mt-eval-ensemble/actions/workflows/tests.yml)
+
 A small, runnable machine-translation quality pipeline: score (reference,
 hypothesis) pairs with three metrics that fail in different ways (BLEU,
 METEOR, and a semantic-similarity proxy), flag low-quality pairs by ensemble
@@ -69,6 +71,28 @@ pip install -r requirements.txt
 python -c "import nltk; nltk.download('wordnet'); nltk.download('omw-1.4')"
 python examples/run_demo.py
 ```
+
+### Example output
+
+```
+pair_id                 BLEU   METEOR  sem_sim   flagged  votes
+p1                     100.0     1.00     1.00     False  -
+p2_paraphrase            25.9     0.39     0.21     False  bleu
+p3_mistranslation        3.7     0.05     0.03      True  bleu,meteor,semantic_similarity
+p4_truncated             5.3     0.20     0.37      True  bleu,meteor
+p5                     100.0     1.00     1.00     False  -
+
+Ensemble vs. BLEU-only flagging:
+  Flagged by ensemble:      ['p3_mistranslation', 'p4_truncated']
+  Flagged by BLEU alone:    ['p2_paraphrase', 'p3_mistranslation', 'p4_truncated']
+  Caught only by BLEU:      ['p2_paraphrase']
+```
+
+`p2_paraphrase` is the case that matters here: it's a valid, correctly
+reworded translation, but BLEU's n-gram matching drops it below the floor
+anyway. METEOR and the semantic-similarity proxy both stay above their
+floors, so the 2-of-3 ensemble vote correctly does not flag it — while a
+BLEU-only pipeline would file it as a false-positive data-quality issue.
 
 ## Tests
 
