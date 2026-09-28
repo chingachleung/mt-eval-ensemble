@@ -1,6 +1,6 @@
 """Ensemble low-quality-pair flagging: combine BLEU, METEOR, and the
 semantic-similarity proxy so that no single metric's blind spot determines
-the outcome.
+the outcome. Hence ensemble metric.
 
 Each metric has a different failure mode (see metrics.py), so a pair that
 fools one metric usually doesn't fool the others the same way. Flagging on
