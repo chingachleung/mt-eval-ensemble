@@ -1,6 +1,6 @@
 """End-to-end demo: score a small set of (reference, hypothesis) MT pairs
 with BLEU, METEOR, and the semantic-similarity proxy, flag low-quality pairs
-by ensemble agreement, and contrast that against flagging on a single metric
+by ensemble agreement, and compare that against flagging on a single metric
 alone.
 
 The pairs below are hand-constructed to exercise each metric's known failure
