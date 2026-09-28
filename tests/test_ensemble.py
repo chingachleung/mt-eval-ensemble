@@ -71,7 +71,7 @@ def test_evaluate_pair_respects_min_votes_threshold():
         reference="the technician will arrive tomorrow morning",
         hypothesis="the technician will arrive tomorrow morning",
     )
-    # Force every metric to "vote" flagged by setting floors above the max
+    # Force every metric to "vote" flagged by setting floors above the max.
     # possible score, but require all 3 votes to flag.
     thresholds = Thresholds(bleu_floor=101.0, meteor_floor=1.1, semantic_floor=1.1, min_votes_to_flag=3)
     result = evaluate_pair(pair, thresholds)
